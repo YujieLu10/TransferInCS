@@ -13,8 +13,9 @@ hci_poaperids_df = pd.read_csv('HCI_paperids.tsv', sep='\t')
 result = []
 ic(hci_poaperids_df.size)
 count = 0
-write_head = True
-for index, line in tqdm(hci_poaperids_df[start_idx:].iterrows()):
+write_head = False
+# start again id: 2079191613
+for index, line in tqdm(hci_poaperids_df[15880:].iterrows()):
     mag_id = line[0]
     query = "https://api.semanticscholar.org/graph/v1/paper/MAG:{}?fields=paperId,externalIds,url,title,abstract,venue,year,referenceCount,citationCount,influentialCitationCount,isOpenAccess,fieldsOfStudy,s2FieldsOfStudy,publicationTypes,publicationDate,journal,authors".format(mag_id)
     paper_response = requests.get(query)
