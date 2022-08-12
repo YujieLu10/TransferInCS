@@ -122,11 +122,11 @@ elif args.extract == "papercitations":
     ori_papercitations = pd.read_csv('../dataAug10/papercitations/papercitations.tsv', sep='\t')
     for conf_name in ["CHI", "CSCW", "UbiComp", "UIST"]:
         ori_conf = pd.read_csv('../dataAug10/{}_paperids.tsv'.format(conf_name),sep='\t')
-        conf_papercitations_citing = ori_conf.merge(ori_papercitations, left_on='citingpaperid', right_on="paperid")
+        conf_papercitations_citing = ori_conf.merge(ori_papercitations, left_on="paper_id", right_on="citingpaperid")
         conf_papercitations_citing = conf_papercitations_citing.drop_duplicates()
         conf_papercitations_citing.to_csv('paperciting_' + str(conf_name) + '.tsv')
 
-        conf_papercitations_cited = ori_conf.merge(ori_papercitations, left_on='citedpaperid', right_on="paperid")
+        conf_papercitations_cited = ori_conf.merge(ori_papercitations, left_on="paper_id", right_on="citedpaperid")
         conf_papercitations_cited = conf_papercitations_cited.drop_duplicates()
         conf_papercitations_cited.to_csv('papercited_' + str(conf_name) + '.tsv')
     # all citation raw file are listed in papercitations directory
