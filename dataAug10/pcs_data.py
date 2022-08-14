@@ -194,22 +194,38 @@ elif args.extract == "inventor":
     #------------ patent inventors -------------# data source:pcs/patent_dblpdata/patent_inventor.tsv
     from itertools import chain
     import pandas as pd
-    patent_data_HCI = pd.read_csv('../dataAug10/papercitationscience_result.tsv',sep='\t')
-    patent_data_HCI = patent_data_HCI.merge(data_HCI, left_index=True, right_index=True)
-    patent_data_HCI.head(5)
-    results_inventors = {'result_CHI':[], 'result_UBI':[], 'result_CSCW':[], 'result_UIST':[]}
+    df_papercitation2science = pd.read_csv('../dataAug10/mergeversiondata/papercitationscience.tsv')
+    for conf in ["CHI", "CSCW", "UbiComp", "UIST"]:
+        new_df = pd.read_csv('../dataAug10/mergeversiondata/papercitationscience_{}.tsv'.format(conf))[["reftype","confscore","magid","patent"]]
+        df_papercitation2science = df_papercitation2science.append(new_df, ignore_index=True)
+    def get_patentid(x):
+        if '-' not in x: return x
+        x = x[x.index('-')+1:]
+        if '-' in x: return x[:x.index('-')]
+        else: return x
+    df_papercitation2science["patent"] = df_papercitation2science["patent"].astype(str)
+    df_papercitation2science["patent"] = df_papercitation2science["patent"].apply(get_patentid)
+    df_papercitation2science = df_papercitation2science.drop_duplicates()
 
-    ori_patentinventors = pd.read_csv('../dataAug10/patent_inventor.tsv',skiprows=1)
-    for row in ori_patentinventors.iterrows():
-        patent_id = str(row[1]).split('    ')[1].split('\\t')[0]
-        patentinventors_row = str(row[1]).replace("\"","").split('    ')[1].split('\n')[0].split('\\t')
+    # patent_data_HCI = pd.read_csv('../dataAug10/papercitationscience_result.tsv',sep='\t')
+    df_papercitation2science = df_papercitation2science.merge(data_HCI, left_index=True, right_index=True)
+    df_papercitation2science.head(5)
+    # results_inventors = {'result_CHI':[], 'result_UBI':[], 'result_CSCW':[], 'result_UIST':[]}
 
-        if paperid in data_HCI['paper_id'].values:
-            results_inventors['result_{}'.format(conf_name_map[int(patent_data_HCI.loc[patent_data_HCI['paper_id']==paperid]['conf_id'].values)])].append(list(patentinventors_row))
+    ori_patentinventors = pd.read_csv('../dataAug10/rawdata/patent_inventor.tsv',sep='\t')
+    ori_patentinventors["patent_id"] = ori_patentinventors["patent_id"].astype(str)
+    result_pd = df_papercitation2science.merge(ori_patentinventors, left_on='patent', right_on="patent_id")
+    result_pd.to_csv('../dataAug10/mergeversiondata/patentinventors_HCI_new.tsv')
+    # for row in ori_patentinventors.iterrows():
+    #     patent_id = str(row[1]).split('    ')[1].split('\\t')[0]
+    #     patentinventors_row = str(row[1]).replace("\"","").split('    ')[1].split('\n')[0].split('\\t')
+
+    #     if paperid in data_HCI['paper_id'].values:
+    #         results_inventors['result_{}'.format(conf_name_map[int(patent_data_HCI.loc[patent_data_HCI['paper_id']==paperid]['conf_id'].values)])].append(list(patentinventors_row))
             
-    for name, result in results_inventors.items():
-        result_pd = pd.DataFrame(data=result, columns=['patent_id', 'inventor_id', 'location_id'])
-        result_pd.to_csv('patentinventors_' + str(name) + '.tsv')
+    # for name, result in results_inventors.items():
+    #     result_pd = pd.DataFrame(data=result, columns=['patent_id', 'inventor_id', 'location_id'])
+    #     result_pd.to_csv('patentinventors_' + str(name) + '.tsv')
     print(">>> done")
 elif args.extract == "abstract":
     #------------ patent abstract -------------# data source: /data4/pcs/abstract/brf_sum_text.tsv
@@ -238,23 +254,24 @@ elif args.extract == "paperyearinventor":
     import pandas as pd
     import os
 
-    HCI_ori_pd = None
-    for path,directory,files in os.walk('../dataAug10/patentinventors/'):
-        # here, we have conf_id name of CHI, CSCW, UBI, UIST
-        for file in files:
-            ori_pd = pd.read_csv(os.path.join(path, file))
-            conf_id = file[file.index('_') + 1:-4]
-            # add conf_id property to patent data
-            ori_pd['conf_id'] = conf_id
-            if HCI_ori_pd is None:
-                HCI_ori_pd = ori_pd
-            else:
-                HCI_ori_pd = pd.concat([HCI_ori_pd, ori_pd],axis=0)
+    HCI_ori_pd = pd.read_csv('../dataAug10/mergeversiondata/patentinventors_HCI_new.tsv')
+    # for path,directory,files in os.walk('../dataAug10/patentinventors/'):
+    #     # here, we have conf_id name of CHI, CSCW, UBI, UIST
+    #     for file in files:
+    #         ori_pd = pd.read_csv(os.path.join(path, file))
+    #         conf_id = file[file.index('_') + 1:-4]
+    #         # add conf_id property to patent data
+    #         ori_pd['conf_id'] = conf_id
+    #         if HCI_ori_pd is None:
+    #             HCI_ori_pd = ori_pd
+    #         else:
+    #             HCI_ori_pd = pd.concat([HCI_ori_pd, ori_pd],axis=0)
     # extract patent year data
     print("start load")
-    patent_pd = pd.read_csv('patent.tsv',sep='\t')
+    patent_pd = pd.read_csv('../data/patent.tsv',sep='\t')
     # merge ori_conf_pd_map
     print("start merge")
     HCI_ori_pd = HCI_ori_pd.merge(patent_pd, left_on='patent_id', right_on='id')
-    HCI_ori_pd.to_csv('patent_year_inventor.tsv')
+    HCI_ori_pd.to_csv('../dataAug10/mergeversiondata/patent_year_inventor_new.tsv')
     HCI_ori_pd.head(5)
+    print("done")
