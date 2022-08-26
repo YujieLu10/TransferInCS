@@ -54,7 +54,7 @@ for index, line in tqdm(new_hci_poaperids_df.iterrows()):
         else:
             result.append([mag_id, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""])
 result_pd = pd.DataFrame(data=result, columns=['mag_id', 'paperid', 'externalIds', 'url', 'title', 'abstract', 'venue', 'year', 'referenceCount', 'citationCount', 'influentialCitationCount', 'isOpenAccess', 'fieldsOfStudy', 's2FieldsOfStudy', 'publicationTypes', 'publicationDate', 'journal', 'authors'])
-result_pd = result_pd.drop_duplicates()
+# result_pd = result_pd.drop_duplicates()
 result_pd.to_csv('mergeversiondata/paperinformation_' + str(conf_name) + '.tsv', mode='a', header=write_head, index=False, encoding='utf-8')
 write_head = False
 ic(count)

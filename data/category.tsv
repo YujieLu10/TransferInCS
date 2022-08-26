@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1361bfd84642660bf0d14fe6a5e2878414fac6f8f709078cb6f2ccc99590063d
-size 105
+conf_id,conf_name,subfield
+1163450153,CHI,HCI
+1195049314,CSCW,HCI
+1166315290,UIST,HCI
+1171345118,UBI,HCI

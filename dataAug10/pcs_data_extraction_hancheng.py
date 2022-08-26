@@ -2,7 +2,7 @@
 from itertools import chain
 import pandas as pd
 # data_HCI = list(chain(*pd.read_csv('../data/HCI_paperids.tsv',sep=',').values.tolist()))
-data_HCI = pd.read_csv('HCI_paperids.tsv',sep='\t')
+data_HCI = pd.read_csv('mergeversiondata/HCI_paperids.tsv',sep='\t')
 data_HCI.head(10)
 conf_name_map = {1163450153:'CHI', 1195049314:'CSCW', 1171345118:'UBI', 1166315290:'UIST'}
 
@@ -36,4 +36,6 @@ for paperid in data_HCI['paper_id']:
     except:
         pass
 df = pd.DataFrame({'paperid':Paperid, 'authorid':AuthorId,'Affiliation':Affiliation})
-df.to_csv('HCI_paper_authorid_affiliation.tsv',sep='\t', index=False,encoding='utf-8')
+print(len(df))
+df.to_csv('mergeversiondata/HCI_paper_authorid_affiliation.tsv',sep='\t', index=False,encoding='utf-8')
+# 67356
