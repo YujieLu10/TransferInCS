@@ -28,6 +28,7 @@ ori_citingpatent_conf = {}
 
 df_paper_year = pd.read_csv("df_paper_year.tsv")
 df_paper_pc2s_year = pd.read_csv("df_paper_pc2s_year.tsv")
+df_paper_pc2s_year = df_paper_pc2s_year.groupby(['magid', 'patent']).first().reset_index()
 
 for conf_name,conf_id in conf_key.items():
     ori_paperyear_conf[conf_name] = df_paper_year.loc[df_paper_year['conf_id']==conf_id]
@@ -604,7 +605,7 @@ for conf in conf_list:
 # %%
 # the averaged number of years before first patent citation (facet, paper from different years)
 df_temp = df_patent_paper_year[df_patent_paper_year['patent_year']>1985]
-df_temp = df_temp.groupby(['conf_id', 'magid'])['patent_paper_lag'].agg('min')
+df_temp = df_temp.groupby(['conf_id', 'magid'])['patent_paper_lag'].agg('min').reset_index()
 plt_ = sns.pointplot(x="patent_year", y="patent_paper_lag", hue="conf_id", data=df_temp)
 plt.ylabel('Time difference (Year)',fontsize = 20)
 plt.title('The average time lag of the paper\n cited by patents in year X',fontsize = 20)
