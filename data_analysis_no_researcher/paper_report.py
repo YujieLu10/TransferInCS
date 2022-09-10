@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from icecream import ic
 import pickle
-
+import seaborn as sns
 
 save_png_idx = 0
 conf_key = {'CHI':1163450153, 'CSCW':1195049314, 'UBI':1171345118, 'UIST':1166315290}
@@ -88,7 +88,7 @@ df_paperid = df_paperid.drop_duplicates()
 #     axes[plot_idx, 1].legend(loc = 'upper left', prop={'size': 100})
 #     plot_idx += 1
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # plt.legend(loc = 'upper left')
 
@@ -138,7 +138,7 @@ with open('notcited_author_map_conf.pickle', 'rb') as handle:
 #     axes[plot_idx].legend(loc = 'upper left', prop={'size': 100})
 #     plot_idx += 1
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 # %%
@@ -174,7 +174,7 @@ for conf, paperyear_map in paperyear_map_conf.items():
     axes[plot_idx].set_title('conference_{}'.format(conf), fontsize=90)
     plot_idx += 1
 save_png_idx += 1
-plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 # # %
@@ -220,7 +220,7 @@ for conf_name,conf_id in conf_key.items():
 # plt.rc('font', **font)
 # # plt.show()
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 # # %%
@@ -252,7 +252,7 @@ for conf_name,conf_id in conf_key.items():
 # plt.rc('font', **font)
 # # plt.show()
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # font = {'size'   : 18}
 # fig = plt.figure()
@@ -283,7 +283,7 @@ for conf_name,conf_id in conf_key.items():
 # plt.rc('font', **font)
 # # plt.show()
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 # # %%
@@ -342,7 +342,7 @@ for conf_name,conf_id in conf_key.items():
 #     axes[plot_idx].set_title('vis4_conference_{}'.format(conf), fontsize=90)
 #     plot_idx += 1
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 
@@ -378,12 +378,10 @@ for conf, paperyear_map in paperyear_map_conf.items():
     axes[plot_idx].set_title('conference_{}'.format(conf), fontsize=90)
     plot_idx += 1
 save_png_idx += 1
-plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 fig = plt.figure()
 
 # # %%
-# import matplotlib.pyplot as plt
-# import seaborn as sns
 # # old_df_patent_year = pd.read_csv('../dataAug10/mergeversiondata/patent_year_inventor_HCI_oldmerge.tsv')[["patent_id","date","conf_id"]]
 # # new_df_patent_year = pd.read_csv('../dataAug10/mergeversiondata/patent_year_inventor_new.tsv')[["patent_id","date","conf_id"]]
 # # df_patent_year = pd.read_csv('../dataAug10/mergeversiondata/patent_year_inventor_HCI.tsv')[["patent_id","date","conf_id"]]
@@ -405,7 +403,7 @@ fig = plt.figure()
 # # df_patent_paper_year = df_patent_paper_year.drop_duplicates()
 # # df_patent_paper_year = df_patent_paper_year.groupby(["magid", "patent_id"]).first().reset_index()
 # import pandas as pd
-# df_patent_paper_year = pd.read_csv("../dataAug10/mergeversiondata/df_patent_paper_year.tsv")
+df_patent_paper_year = pd.read_csv("../dataAug10/mergeversiondata/df_patent_paper_year.tsv")
 # df_patent_paper_year.head(3)
 
 # # %%
@@ -429,7 +427,7 @@ fig = plt.figure()
 #     else:
 #         label.set_visible(False)
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # %%
 # # df_patent_paper_year.head(2)
@@ -462,7 +460,7 @@ fig = plt.figure()
 #     else:
 #         label.set_visible(False)
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # %%
 # # related patents over year
@@ -485,7 +483,7 @@ fig = plt.figure()
 #     else:
 #         label.set_visible(False)
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # %%
 # import numpy as np
@@ -517,48 +515,48 @@ fig = plt.figure()
 # # plt.yticks(fontsize = 20)
 # # plt.xlabel('')
 # # save_png_idx += 1
-# # plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# # plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # # fig = plt.figure()
 # # %%
 # # the averaged number of years before first patent citation (facet, paper from different years): NA
 
-# # the average lag of science that influence patent
-# df_temp = df_patent_paper_year[df_patent_paper_year['patent_year']>1985]
-# plt_ = sns.pointplot(x="patent_year", y="patent_paper_lag", hue="conf_id", data=df_temp)
-# plt.ylabel('Time difference (Year)',fontsize = 20)
-# plt.title('The average time lag of the paper\n cited by patents in year X',fontsize = 20)
-# plt.xticks(rotation=45, fontsize = 20)
-# plt.yticks(fontsize = 20)
-# plt.ylim(0, 50)
-# plt.legend(fontsize =15)
-# plt.xlabel('patent year', fontsize =20)
-# for ind, label in enumerate(plt_.get_xticklabels()):
-#     if ind % 5 == 0:  # every 10th label is kept
-#         label.set_visible(True)
-#     else:
-#         label.set_visible(False)
-# save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
-# fig = plt.figure()
+# the average lag of science that influence patent
+df_temp = df_patent_paper_year[df_patent_paper_year['patent_year']>1985]
+plt_ = sns.pointplot(x="patent_year", y="patent_paper_lag", hue="conf_id", data=df_temp)
+plt.ylabel('Time difference (Year)',fontsize = 20)
+plt.title('The average time lag of the paper\n cited by patents in year X',fontsize = 20)
+plt.xticks(rotation=45, fontsize = 20)
+plt.yticks(fontsize = 20)
+plt.ylim(0, 30)
+plt.legend(fontsize =15)
+plt.xlabel('patent year', fontsize =20)
+for ind, label in enumerate(plt_.get_xticklabels()):
+    if ind % 5 == 0:  # every 10th label is kept
+        label.set_visible(True)
+    else:
+        label.set_visible(False)
+save_png_idx += 1
+plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
+fig = plt.figure()
 
-# # the median lag of science that influence patent
-# df_temp = df_patent_paper_year[df_patent_paper_year['patent_year']>1985]
-# plt_ = sns.pointplot(x="patent_year", y="patent_paper_lag", hue="conf_id", data=df_temp, estimator=np.median)
-# plt.ylabel('Time difference (Year)',fontsize = 20)
-# plt.title('The median time lag of the paper\n cited by patents in year X',fontsize = 20)
-# plt.xticks(rotation=45, fontsize = 20)
-# plt.yticks(fontsize = 20)
-# plt.ylim(0, 50)
-# plt.legend(fontsize =15)
-# plt.xlabel('patent year', fontsize =20)
-# for ind, label in enumerate(plt_.get_xticklabels()):
-#     if ind % 5 == 0:  # every 10th label is kept
-#         label.set_visible(True)
-#     else:
-#         label.set_visible(False)
-# save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
-# fig = plt.figure()
+# the median lag of science that influence patent
+df_temp = df_patent_paper_year[df_patent_paper_year['patent_year']>1985]
+plt_ = sns.pointplot(x="patent_year", y="patent_paper_lag", hue="conf_id", data=df_temp, estimator=np.median)
+plt.ylabel('Time difference (Year)',fontsize = 20)
+plt.title('The median time lag of the paper\n cited by patents in year X',fontsize = 20)
+plt.xticks(rotation=45, fontsize = 20)
+plt.yticks(fontsize = 20)
+plt.ylim(0, 30)
+plt.legend(fontsize =15)
+plt.xlabel('patent year', fontsize =20)
+for ind, label in enumerate(plt_.get_xticklabels()):
+    if ind % 5 == 0:  # every 10th label is kept
+        label.set_visible(True)
+    else:
+        label.set_visible(False)
+save_png_idx += 1
+plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
+fig = plt.figure()
 
 # # %%
 # # the average lag of patent that cite papers in year X
@@ -578,7 +576,7 @@ fig = plt.figure()
 #     else:
 #         label.set_visible(False)
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 # # the median lag of patent that cite papers in year X
@@ -598,7 +596,7 @@ fig = plt.figure()
 #     else:
 #         label.set_visible(False)
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 # # %%
@@ -610,7 +608,7 @@ fig = plt.figure()
 # plt.yticks(fontsize = 20)
 # plt.xlabel('')
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 # # Median influence lags between patent and paper
@@ -621,7 +619,7 @@ fig = plt.figure()
 # plt.yticks(fontsize = 20)
 # plt.xlabel('')
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 # # %%
@@ -634,7 +632,7 @@ fig = plt.figure()
 # plt.yticks(fontsize = 20)
 # plt.xlabel('')
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # Median transfer lags (grouped by patents)
 # df_temp = df_patent_paper_year.groupby(['patent_id','patent_year','conf_id'])['patent_paper_lag'].agg('min').reset_index()
@@ -645,7 +643,7 @@ fig = plt.figure()
 # plt.yticks(fontsize = 20)
 # plt.xlabel('')
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # %%
 # # Average transfer lags (grouped by papers)
@@ -657,7 +655,7 @@ fig = plt.figure()
 # plt.yticks(fontsize = 20)
 # plt.xlabel('')
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # Median transfer lags (grouped by papers)
 # df_temp = df_patent_paper_year.groupby(['magid','patent_year','conf_id'])['patent_paper_lag'].agg('min').reset_index()
@@ -668,48 +666,48 @@ fig = plt.figure()
 # plt.yticks(fontsize = 20)
 # plt.xlabel('')
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 # # %%
-# # The time lag of the most recent paper cited by patents in year X
-# df_temp = df_patent_paper_year.groupby(['patent_id','patent_year','conf_id'])['patent_paper_lag'].agg('min').reset_index()
-# df_temp = df_temp[df_temp['patent_year']>1985]
-# plt_ = sns.pointplot(x="patent_year", y="patent_paper_lag", hue="conf_id", data=df_temp)
-# plt.ylabel('Time difference (Year)',fontsize = 20)
-# plt.title('The time lag of the most recent paper\n cited by patents in year X',fontsize = 20)
-# plt.xticks(rotation=45, fontsize = 20)
-# plt.yticks(fontsize = 20)
-# plt.ylim(0, 50)
-# plt.legend(fontsize =15)
-# plt.xlabel('patent year', fontsize =20)
-# for ind, label in enumerate(plt_.get_xticklabels()):
-#     if ind % 5 == 0:  # every 10th label is kept
-#         label.set_visible(True)
-#     else:
-#         label.set_visible(False)
-# save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
-# fig = plt.figure()
-# # %%
-# # the first patent that adopts a paper
-# df_temp = df_patent_paper_year.groupby(['magid','year',"conf_id"])['patent_paper_lag'].agg('min').reset_index()
-# df_temp = df_temp[df_temp['year']>1977]
-# plt_ = sns.pointplot(x="year", y="patent_paper_lag", hue="conf_id", data=df_temp)
-# plt.ylabel('Time difference (Year)',fontsize = 20)
-# plt.title('The time lag of the first patent\n that cite papers in year X',fontsize = 20)
-# plt.xticks(rotation=45, fontsize = 20)
-# plt.legend(fontsize =15)
-# plt.xlabel('paper year', fontsize =15)
-# plt.yticks(fontsize = 20)
-# for ind, label in enumerate(plt_.get_xticklabels()):
-#     if ind % 5 == 0:  # every 10th label is kept
-#         label.set_visible(True)
-#     else:
-#         label.set_visible(False)
-# save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
-# fig = plt.figure()
+# The time lag of the most recent paper cited by patents in year X
+df_temp = df_patent_paper_year.groupby(['patent_id','patent_year','conf_id'])['patent_paper_lag'].agg('min').reset_index()
+df_temp = df_temp[df_temp['patent_year']>1985]
+plt_ = sns.pointplot(x="patent_year", y="patent_paper_lag", hue="conf_id", data=df_temp)
+plt.ylabel('Time difference (Year)',fontsize = 20)
+plt.title('The time lag of the most recent paper\n cited by patents in year X',fontsize = 20)
+plt.xticks(rotation=45, fontsize = 20)
+plt.yticks(fontsize = 20)
+plt.ylim(0, 30)
+plt.legend(fontsize =15)
+plt.xlabel('patent year', fontsize =20)
+for ind, label in enumerate(plt_.get_xticklabels()):
+    if ind % 5 == 0:  # every 10th label is kept
+        label.set_visible(True)
+    else:
+        label.set_visible(False)
+save_png_idx += 1
+plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
+fig = plt.figure()
+# %%
+# the first patent that adopts a paper
+df_temp = df_patent_paper_year.groupby(['magid','year',"conf_id"])['patent_paper_lag'].agg('min').reset_index()
+df_temp = df_temp[df_temp['year']>1977]
+plt_ = sns.pointplot(x="year", y="patent_paper_lag", hue="conf_id", data=df_temp)
+plt.ylabel('Time difference (Year)',fontsize = 20)
+plt.title('The time lag of the first patent\n that cite papers in year X',fontsize = 20)
+plt.xticks(rotation=45, fontsize = 20)
+plt.legend(fontsize =15)
+plt.xlabel('paper year', fontsize =15)
+plt.yticks(fontsize = 20)
+for ind, label in enumerate(plt_.get_xticklabels()):
+    if ind % 5 == 0:  # every 10th label is kept
+        label.set_visible(True)
+    else:
+        label.set_visible(False)
+save_png_idx += 1
+plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
+fig = plt.figure()
 # # %%
 # ## Plot aggregate average times a paper gets transferred to patents 
 # ## Only consider papers that get transferred
@@ -731,7 +729,7 @@ fig = plt.figure()
 # plt.rc('font', **font)
 
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # %%
 # ## Plot aggregate average number of times a paper gets transferred to patents per year 
@@ -754,7 +752,7 @@ fig = plt.figure()
 # plt.rc('font', **font)
 # # plt.show()
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 # # %%
@@ -765,7 +763,7 @@ fig = plt.figure()
 # plt.ylabel('Number of papers', fontsize = 18)
 # plt.title('Distribution of CHI paper transfer frequency')
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # %%
 # patent_CSCW_freq = patent_CSCW_year
@@ -775,7 +773,7 @@ fig = plt.figure()
 # plt.ylabel('Number of papers', fontsize = 18)
 # plt.title('Distribution of CSCW paper transfer frequency')
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # %%
 # patent_UBI_freq = patent_UBI_year
@@ -785,7 +783,7 @@ fig = plt.figure()
 # plt.ylabel('Number of papers', fontsize = 18)
 # plt.title('Distribution of UBI paper transfer frequency')
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # %%
 # patent_UIST_freq = patent_UIST_year
@@ -795,7 +793,7 @@ fig = plt.figure()
 # plt.ylabel('Number of papers', fontsize = 18)
 # plt.title('Distribution of UIST paper transfer frequency')
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 
@@ -840,7 +838,7 @@ fig = plt.figure()
 #             annot_kws={'size':5,'weight':'normal', 'color':'#253D24'},#数字属性设置，例如字号、磅值、颜色            
 #            )
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # accu_dcorr=pd.DataFrame(accu_year_data,index=y_tick,columns=x_tick)
 # plt.figure(figsize=(11, 9),dpi=100)
@@ -853,7 +851,7 @@ fig = plt.figure()
 #             mask=np.triu(np.ones_like(dcorr,dtype=np.bool))#显示对脚线下面部分图，accumulative时，对角线上方皆为0
 #            )
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # %%
 # from string import ascii_letters
@@ -911,7 +909,7 @@ fig = plt.figure()
 #                 mask=np.triu(np.ones_like(dcorr,dtype=np.bool))#显示对脚线下面部分图，accumulative时，对角线上方皆为0
 #                )
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 # # %%
 # ## Plot aggregate average number of times a paper gets transferred to patents per year
@@ -939,7 +937,7 @@ fig = plt.figure()
 # plt.rc('font', **font)
 # # plt.show()
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 
@@ -969,7 +967,7 @@ fig = plt.figure()
 # plt.rc('font', **font)
 # # plt.show()
 # save_png_idx += 1
-# plt.savefig('../paper_report_figure_no_researcher/fig_{}.png'.format(save_png_idx))
+# plt.savefig('../slides_report_figure/fig_{}_nr.png'.format(save_png_idx))
 # fig = plt.figure()
 
 

@@ -17,10 +17,21 @@ df_paper_pc2s_year = df_paper_pc2s_year.groupby(['magid', 'patent']).first().res
 ic(len(df_paper_pc2s_year))
 ic(df_paper_pc2s_year.head(2))
 df_paper_pc2s_year = df_paper_pc2s_year.drop_duplicates()
+df_paper_pc2s_year.to_csv("df_paper_pc2s_year_non_self_cite.tsv")
 
+
+df_patent_paper_year = pd.read_csv("../dataAug10/mergeversiondata/df_patent_paper_year.tsv")
+# df_patent_paper_year["magid"] = df_patent_paper_year["magid"].astype(str)
+df_patent_paper_year["patent_id"] = df_patent_paper_year["patent_id"].astype(str)
+# non_self_cite_patent_mag["magid"] = non_self_cite_patent_mag["magid"].astype(str)
+non_self_cite_patent_mag["patent"] = non_self_cite_patent_mag["patent"].astype(str)
+df_patent_paper_year = df_patent_paper_year.merge(non_self_cite_patent_mag, left_on=['magid', 'patent_id'], right_on=['magid', 'patent'])
+df_patent_paper_year.to_csv("df_patent_paper_year.tsv")
+ic(len(df_patent_paper_year))
 for conf_name,conf_id in conf_key.items():
     ori_paperyear_conf[conf_name] = df_paper_year.loc[df_paper_year['conf_id']==conf_id]
     ori_citingpatent_conf[conf_name] = df_paper_pc2s_year.loc[df_paper_pc2s_year['conf_id']==conf_id]
+ic()
 # #------------ analyze paper author -------------#
 # ori_author_conf = {}
 # # author
