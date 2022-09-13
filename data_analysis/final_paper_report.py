@@ -41,23 +41,6 @@ with open('notcited_author_map_conf.pickle', 'rb') as handle:
     notcited_author_map_conf = pickle.load(handle)
 
 ic(len(citedpaper_map_conf['CHI']))
-
-ori_paperyear_conf = {}
-ori_citingpatent_conf = {}
-
-
-df_paper_year = pd.read_csv("df_paper_year.tsv")
-df_paper_year = df_paper_year.groupby("paper_id").first().reset_index()
-df_paper_pc2s_year = pd.read_csv("df_paper_pc2s_year.tsv")
-ic(len(df_paper_pc2s_year))
-df_paper_pc2s_year = df_paper_pc2s_year.groupby(['magid', 'patent']).first().reset_index()
-ic(len(df_paper_pc2s_year))
-for conf_name,conf_id in conf_key.items():
-    ori_paperyear_conf[conf_name] = df_paper_year.loc[df_paper_year['conf_id']==conf_id]
-    ori_citingpatent_conf[conf_name] = df_paper_pc2s_year.loc[df_paper_pc2s_year['conf_id']==conf_id]
-
-df_paperid = pd.read_csv('../dataAug10/mergeversiondata/HCI_paperids.tsv', sep='\t')
-df_paperid = df_paperid.drop_duplicates()
 # %%
 # Visualization
 start = 1980
@@ -181,7 +164,7 @@ save_png_idx = 7
 plt.savefig('../final_paper_report_figure/testylog_fig_{}.png'.format(save_png_idx))
 fig = plt.figure()
 
-df_patent_paper_year = pd.read_csv("../dataAug10/mergeversiondata/df_patent_paper_year.tsv")
+df_patent_paper_year = pd.read_csv("df_patent_paper_year_filtered.tsv")
 df_patent_paper_year = df_patent_paper_year.drop_duplicates()
 df_patent_paper_year = df_patent_paper_year.groupby(["magid", "patent_id"]).first().reset_index()
 

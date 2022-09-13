@@ -8,8 +8,8 @@ ori_paperyear_conf = {}
 ori_citingpatent_conf = {}
 
 
-df_paper_year = pd.read_csv("df_paper_year.tsv")
-df_paper_pc2s_year = pd.read_csv("df_paper_pc2s_year.tsv")
+df_paper_year = pd.read_csv("df_paper_year_filtered.tsv")
+df_paper_pc2s_year = pd.read_csv("df_paper_pc2s_year_filtered.tsv")
 
 for conf_name,conf_id in conf_key.items():
     ori_paperyear_conf[conf_name] = df_paper_year.loc[df_paper_year['conf_id']==conf_id]
@@ -136,6 +136,11 @@ for conf_name,conf_id in conf_key.items():
 with open('inv_paperyear_map_conf.pickle', 'rb') as handle:
     inv_paperyear_map_conf = pickle.load(handle)
 df_paperid = pd.read_csv('../dataAug10/mergeversiondata/HCI_paperids.tsv', sep='\t')
+
+HCI_filter_df_paperid = pd.read_csv('../filtered_HCI_papers.csv', sep=',')
+white_list = HCI_filter_df_paperid['mag_id'].tolist()
+df_paperid = df_paperid[df_paperid.paper_id.isin(white_list)]
+
 df_paperid = df_paperid.drop_duplicates()
 # #------------ analyze paper point -------------#
 # ori_citingpaper_conf = {}

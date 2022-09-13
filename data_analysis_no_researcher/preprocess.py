@@ -9,27 +9,30 @@ ori_paperyear_conf = {}
 ori_citingpatent_conf = {}
 
 
-patent_id_no_researcher = pd.read_csv("patent_id_no_researcher.csv")
-patent_id_no_researcher["patent"] = patent_id_no_researcher["patent"].astype(str)
-df_paper_year = pd.read_csv("df_paper_year.tsv")
-df_paper_pc2s_year = pd.read_csv("df_paper_pc2s_year.tsv")
-df_paper_pc2s_year["patent"] = df_paper_pc2s_year["patent"].astype(str)
-ic(len(df_paper_pc2s_year))
-df_paper_pc2s_year = df_paper_pc2s_year.merge(patent_id_no_researcher, left_on='patent', right_on='patent')
-df_paper_pc2s_year = df_paper_pc2s_year.drop_duplicates()
-ic(len(df_paper_pc2s_year))
-df_paper_pc2s_year.to_csv("df_paper_pc2s_year_no_researcher.tsv")
+# patent_id_no_researcher = pd.read_csv("patent_id_no_researcher.csv")
+# patent_id_no_researcher["patent"] = patent_id_no_researcher["patent"].astype(str)
+# df_paper_year = pd.read_csv("df_paper_year.tsv")
+# df_paper_pc2s_year = pd.read_csv("df_paper_pc2s_year.tsv")
+# df_paper_pc2s_year["patent"] = df_paper_pc2s_year["patent"].astype(str)
+# ic(len(df_paper_pc2s_year))
+# df_paper_pc2s_year = df_paper_pc2s_year.merge(patent_id_no_researcher, left_on='patent', right_on='patent')
+# df_paper_pc2s_year = df_paper_pc2s_year.drop_duplicates()
+# ic(len(df_paper_pc2s_year))
+# df_paper_pc2s_year.to_csv("df_paper_pc2s_year_no_researcher.tsv")
 
-df_patent_paper_year = pd.read_csv("../dataAug10/mergeversiondata/df_patent_paper_year.tsv")
-df_patent_paper_year["patent_id"] = df_patent_paper_year["patent_id"].astype(str)
-df_patent_paper_year = df_patent_paper_year.merge(patent_id_no_researcher, left_on='patent_id', right_on='patent')
-df_patent_paper_year.to_csv("df_patent_paper_year.tsv")
+# df_patent_paper_year = pd.read_csv("../dataAug10/mergeversiondata/df_patent_paper_year.tsv")
+# df_patent_paper_year["patent_id"] = df_patent_paper_year["patent_id"].astype(str)
+# df_patent_paper_year = df_patent_paper_year.merge(patent_id_no_researcher, left_on='patent_id', right_on='patent')
+# df_patent_paper_year.to_csv("df_patent_paper_year.tsv")
+
+df_paper_year = pd.read_csv("df_paper_year_filtered.tsv")
+df_patent_paper_year = pd.read_csv("df_patent_paper_year_filtered.tsv")
+df_paper_pc2s_year = pd.read_csv("df_paper_pc2s_year_no_researcher_filtered.tsv")
 
 for conf_name,conf_id in conf_key.items():
     ori_paperyear_conf[conf_name] = df_paper_year.loc[df_paper_year['conf_id']==conf_id]
     ori_citingpatent_conf[conf_name] = df_paper_pc2s_year.loc[df_paper_pc2s_year['conf_id']==conf_id]
-    
-ic()
+
 # #------------ analyze paper author -------------#
 # ori_author_conf = {}
 # # author
@@ -152,6 +155,9 @@ ic()
 with open('inv_paperyear_map_conf.pickle', 'rb') as handle:
     inv_paperyear_map_conf = pickle.load(handle)
 df_paperid = pd.read_csv('../dataAug10/mergeversiondata/HCI_paperids.tsv', sep='\t')
+HCI_filter_df_paperid = pd.read_csv('../filtered_HCI_papers.csv', sep=',')
+white_list = HCI_filter_df_paperid['mag_id'].tolist()
+df_paperid = df_paperid[df_paperid.paper_id.isin(white_list)]
 df_paperid = df_paperid.drop_duplicates()
 # #------------ analyze paper point -------------#
 # ori_citingpaper_conf = {}
@@ -178,6 +184,11 @@ for conf in ["CHI", "CSCW", "UbiComp", "UIST"]:
 
 df_paper_cited = df_cited.merge(df_paperid, left_on='citedpaperid', right_on='paper_id')
 df_paper_cited = df_paper_cited.drop_duplicates()
+
+HCI_filter_df_paperid = pd.read_csv('../filtered_HCI_papers.csv', sep=',')
+white_list = HCI_filter_df_paperid['mag_id'].tolist()
+df_paper_cited = df_paper_cited[df_paper_cited.paper_id.isin(white_list)]
+
 df_paper_cited.to_csv("df_paper_cited.tsv")
 # df_paper_cited = pd.read_csv("df_paper_cited.tsv")
 ic(len(df_paper_cited))

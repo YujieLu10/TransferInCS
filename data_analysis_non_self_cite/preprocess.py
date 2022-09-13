@@ -7,26 +7,31 @@ conf_key = {'CHI':1163450153, 'CSCW':1195049314, 'UBI':1171345118, 'UIST':116631
 ori_paperyear_conf = {}
 ori_citingpatent_conf = {}
 
-non_self_cite_patent_mag = pd.read_csv("non_self_cite_patent_mag.tsv")
-df_paper_year = pd.read_csv("df_paper_year.tsv")
-df_paper_pc2s_year = pd.read_csv("df_paper_pc2s_year.tsv")
-ic(len(non_self_cite_patent_mag))
-ic(len(df_paper_pc2s_year))
-df_paper_pc2s_year = df_paper_pc2s_year.merge(non_self_cite_patent_mag, left_on=['magid', 'patent'], right_on=['magid', 'patent'])
-df_paper_pc2s_year = df_paper_pc2s_year.groupby(['magid', 'patent']).first().reset_index()
-ic(len(df_paper_pc2s_year))
-ic(df_paper_pc2s_year.head(2))
-df_paper_pc2s_year = df_paper_pc2s_year.drop_duplicates()
-df_paper_pc2s_year.to_csv("df_paper_pc2s_year_non_self_cite.tsv")
+# non_self_cite_patent_mag = pd.read_csv("non_self_cite_patent_mag.tsv")
+# df_paper_year = pd.read_csv("df_paper_year.tsv")
+# df_paper_pc2s_year = pd.read_csv("df_paper_pc2s_year.tsv")
+# ic(len(non_self_cite_patent_mag))
+# ic(len(df_paper_pc2s_year))
+# df_paper_pc2s_year = df_paper_pc2s_year.merge(non_self_cite_patent_mag, left_on=['magid', 'patent'], right_on=['magid', 'patent'])
+# df_paper_pc2s_year = df_paper_pc2s_year.groupby(['magid', 'patent']).first().reset_index()
+# ic(len(df_paper_pc2s_year))
+# ic(df_paper_pc2s_year.head(2))
+# df_paper_pc2s_year = df_paper_pc2s_year.drop_duplicates()
+# df_paper_pc2s_year.to_csv("df_paper_pc2s_year_non_self_cite.tsv")
 
 
-df_patent_paper_year = pd.read_csv("../dataAug10/mergeversiondata/df_patent_paper_year.tsv")
-# df_patent_paper_year["magid"] = df_patent_paper_year["magid"].astype(str)
-df_patent_paper_year["patent_id"] = df_patent_paper_year["patent_id"].astype(str)
-# non_self_cite_patent_mag["magid"] = non_self_cite_patent_mag["magid"].astype(str)
-non_self_cite_patent_mag["patent"] = non_self_cite_patent_mag["patent"].astype(str)
-df_patent_paper_year = df_patent_paper_year.merge(non_self_cite_patent_mag, left_on=['magid', 'patent_id'], right_on=['magid', 'patent'])
-df_patent_paper_year.to_csv("df_patent_paper_year.tsv")
+# df_patent_paper_year = pd.read_csv("../dataAug10/mergeversiondata/df_patent_paper_year.tsv")
+# # df_patent_paper_year["magid"] = df_patent_paper_year["magid"].astype(str)
+# df_patent_paper_year["patent_id"] = df_patent_paper_year["patent_id"].astype(str)
+# # non_self_cite_patent_mag["magid"] = non_self_cite_patent_mag["magid"].astype(str)
+# non_self_cite_patent_mag["patent"] = non_self_cite_patent_mag["patent"].astype(str)
+# df_patent_paper_year = df_patent_paper_year.merge(non_self_cite_patent_mag, left_on=['magid', 'patent_id'], right_on=['magid', 'patent'])
+# df_patent_paper_year.to_csv("df_patent_paper_year.tsv")
+
+df_paper_year = pd.read_csv("df_paper_year_filtered.tsv")
+df_patent_paper_year = pd.read_csv("df_patent_paper_year_filtered.tsv")
+df_paper_pc2s_year = pd.read_csv("df_paper_pc2s_year_non_self_cite_filtered.tsv")
+
 ic(len(df_patent_paper_year))
 for conf_name,conf_id in conf_key.items():
     ori_paperyear_conf[conf_name] = df_paper_year.loc[df_paper_year['conf_id']==conf_id]
@@ -154,6 +159,9 @@ ic()
 with open('inv_paperyear_map_conf.pickle', 'rb') as handle:
     inv_paperyear_map_conf = pickle.load(handle)
 df_paperid = pd.read_csv('../dataAug10/mergeversiondata/HCI_paperids.tsv', sep='\t')
+HCI_filter_df_paperid = pd.read_csv('../filtered_HCI_papers.csv', sep=',')
+white_list = HCI_filter_df_paperid['mag_id'].tolist()
+df_paperid = df_paperid[df_paperid.paper_id.isin(white_list)]
 df_paperid = df_paperid.drop_duplicates()
 # #------------ analyze paper point -------------#
 ori_citingpaper_conf = {}
@@ -165,6 +173,9 @@ for conf in ["CHI", "CSCW", "UbiComp", "UIST"]:
 
 df_paper_cited = df_cited.merge(df_paperid, left_on='citedpaperid', right_on='paper_id')
 df_paper_cited = df_paper_cited.drop_duplicates()
+HCI_filter_df_paperid = pd.read_csv('../filtered_HCI_papers.csv', sep=',')
+white_list = HCI_filter_df_paperid['mag_id'].tolist()
+df_paper_cited = df_paper_cited[df_paper_cited.paper_id.isin(white_list)]
 df_paper_cited.to_csv("df_paper_cited.tsv")
 ic(len(df_paper_cited))
 # df_paper_cited.head(3)
