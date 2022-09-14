@@ -126,7 +126,9 @@ from scipy import stats
 # plot_idx = 0
 
 ic(len(single_citingpaper_map_conf['CHI']))
-for conf, paperyear_map in paperyear_map_conf.items():
+import math
+for conf in ["CHI", "CSCW", "UIST", "UBI"]:
+    paperyear_map = paperyear_map_conf[conf]
     citingpatent_map = single_citingpatent_map_conf[conf]
     citingpaper_map = single_citingpaper_map_conf[conf]
     Y_citingpatentcnt = [0] * max(len(citingpatent_map), len(citingpaper_map))
@@ -135,9 +137,9 @@ for conf, paperyear_map in paperyear_map_conf.items():
     for key, val in citingpatent_map.items():
         Y_citingpatentcnt[idx] = len(val)
         if key in citingpaper_map:
-            Y_citingpapercnt[idx] = len(citingpaper_map[key])
+            Y_citingpapercnt[idx] = math.log(len(citingpaper_map[key]))
         else:
-            Y_citingpapercnt[idx] = 0
+            Y_citingpapercnt[idx] = math.log(0.0001)
         idx += 1
     print(stats.pearsonr(Y_citingpapercnt, Y_citingpatentcnt))
 #     axes[plot_idx].plot(Y_citingpapercnt,Y_citingpatentcnt,'o',color='r',markersize=30)
@@ -156,43 +158,46 @@ df_patent_paper_year = df_patent_paper_year.groupby(["magid", "patent_id"]).firs
 df_patent_paper_year = df_patent_paper_year.replace("UBI", "UbiComp")
 
 # the median lag of science that influence patent
-df_temp = df_patent_paper_year[df_patent_paper_year['patent_year']>1985]
+df_temp = df_patent_paper_year[df_patent_paper_year['patent_year']>1985].groupby(['patent_id','patent_year','conf_id'])['patent_paper_lag'].agg('median').reset_index()
+# df_temp = df_temp.groupby(["patent_year"])["patent_paper_lag"].median().reset_index()
+# df_temp = df_temp.groupby(['patent_year'])['patent_paper_lag'].agg('median').reset_index()
 df_temp = df_temp.sort_values(by=['conf_id'])
-plt_ = sns.pointplot(x="patent_year", y="patent_paper_lag", hue="conf_id", data=df_temp, estimator=np.median)
+plt_ = sns.lineplot(x="patent_year", y="patent_paper_lag", hue="conf_id", data=df_temp)
 plt.ylabel('Time difference (Year)',fontsize = 20)
 plt.title('The median time lag of the paper\n cited by patents in year X',fontsize = 20)
-plt.xticks(rotation=45, fontsize = 20)
+# plt.xticks(rotation=45, fontsize = 20)
 plt.yticks(fontsize = 20)
 plt.ylim(0, 30)
-plt.legend(fontsize =15)
+plt.legend(fontsize =15, loc = 'upper left')
 plt.xlabel('Year', fontsize =20)
-for ind, label in enumerate(plt_.get_xticklabels()):
-    if ind % 5 == 0:  # every 10th label is kept
-        label.set_visible(True)
-    else:
-        label.set_visible(False)
+# for ind, label in enumerate(plt_.get_xticklabels()):
+#     if ind % 5 == 0:  # every 10th label is kept
+#         label.set_visible(True)
+#     else:
+#         label.set_visible(False)
 plt.savefig('../final_paper_report_figure/fig_12c.png', bbox_inches = "tight")
 fig = plt.figure()
 
 
 # # # %%
 # The time lag of the most recent paper cited by patents in year X
-df_temp = df_patent_paper_year.groupby(['patent_id','patent_year','conf_id'])['patent_paper_lag'].agg('min').reset_index()
+# df_temp = df_patent_paper_year.groupby(['patent_id','patent_year','conf_id'])['patent_paper_lag'].agg('min').reset_index()
+df_temp = df_patent_paper_year[df_patent_paper_year['patent_year']>1985].groupby(['patent_id','patent_year','conf_id'])['patent_paper_lag'].agg('min').reset_index()
 df_temp = df_temp[df_temp['patent_year']>=1990]
 df_temp = df_temp.sort_values(by=['conf_id'])
-plt_ = sns.pointplot(x="patent_year", y="patent_paper_lag", hue="conf_id", data=df_temp)
+plt_ = sns.lineplot(x="patent_year", y="patent_paper_lag", hue="conf_id", data=df_temp)
 plt.ylabel('Time difference (Year)',fontsize = 20)
 plt.title('The time lag of the most recent paper\n cited by patents in year X',fontsize = 20)
-plt.xticks(rotation=45, fontsize = 20)
-plt.yticks(fontsize = 20)
-plt.ylim(0, 30)
-plt.legend(fontsize =15)
-plt.xlabel('patent year', fontsize =20)
-for ind, label in enumerate(plt_.get_xticklabels()):
-    if ind % 5 == 0:  # every 10th label is kept
-        label.set_visible(True)
-    else:
-        label.set_visible(False)
+# plt.xticks(rotation=45, fontsize = 20)
+plt.yticks([0,5,10,15,20],fontsize = 20)
+plt.ylim(0, 20)
+plt.legend(fontsize =15, loc = 'upper left')
+plt.xlabel('Year', fontsize =20)
+# for ind, label in enumerate(plt_.get_xticklabels()):
+#     if ind % 5 == 0:  # every 10th label is kept
+#         label.set_visible(True)
+#     else:
+#         label.set_visible(False)
 plt.savefig('../final_paper_report_figure/fig_12b.png', bbox_inches = "tight")
 fig = plt.figure()
 
@@ -205,18 +210,18 @@ df_temp = df_temp.groupby(['conf_id','patent_year']).agg('count').reset_index()
 
 df_temp = df_temp[(df_temp['patent_year']!=2001)|(df_temp['conf_id']!="UbiComp")]
 df_temp = df_temp[(df_temp['patent_year']>=1989) & (df_temp['patent_year']<=2018)]
-plt_ = sns.pointplot(x="patent_year", y="patent_id", hue="conf_id", data=df_temp)
+plt_ = sns.lineplot(x="patent_year", y="patent_id", hue="conf_id", data=df_temp)
 plt.ylabel('Number of patents',fontsize = 20)
 plt.title('Patents Citing HCI Research',fontsize = 20)
-plt.xticks(fontsize = 18)
+# plt.xticks(fontsize = 18)
 plt.yticks(fontsize = 20)
-plt.legend(fontsize =15)
+plt.legend(fontsize =15, loc = 'upper left')
 plt.xlabel('Year', fontsize =20)
-for ind, label in enumerate(plt_.get_xticklabels()):
-    if ind % 5 == 0:  # every 10th label is kept
-        label.set_visible(True)
-    else:
-        label.set_visible(False)
+# for ind, label in enumerate(plt_.get_xticklabels()):
+#     if ind % 5 == 0:  # every 10th label is kept
+#         label.set_visible(True)
+#     else:
+#         label.set_visible(False)
 save_png_idx = 8
 plt.savefig('../final_paper_report_figure/fig_{}.png'.format(save_png_idx), bbox_inches = "tight")
 fig = plt.figure()
