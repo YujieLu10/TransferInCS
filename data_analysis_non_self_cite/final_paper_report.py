@@ -85,14 +85,14 @@ for conf, paperyear_map in paperyear_map_conf.items():
     citingpatent_map = citingpatent_map_conf[conf]
     citedpaper_map = citedpaper_map_conf[conf]
     for i in range (start, end):
-        if str(i) in paperyear_map.keys():
-            Y_papercnt[i-start] = len(paperyear_map[str(i)])
-        if str(i) in citingpatent_map.keys():
-            Y_citingpatentcnt[i-start] = len(citingpatent_map[str(i)])    
-        if str(i) in citedpaper_map.keys():
-            Y_citedpapercnt[i-start] = len(citedpaper_map[str(i)])
-        if str(i) in citedpaper_map.keys():
-            Y_citedportion[i-start] = len(citedpaper_map[str(i)]) / Y_papercnt[i-start]
+        if i in paperyear_map.keys():
+            Y_papercnt[i-start] = len(paperyear_map[i])
+        if i in citingpatent_map.keys():
+            Y_citingpatentcnt[i-start] = len(citingpatent_map[i])    
+        if i in citedpaper_map.keys():
+            Y_citedpapercnt[i-start] = len(citedpaper_map[i])
+        if i in citedpaper_map.keys():
+            Y_citedportion[i-start] = len(citedpaper_map[i]) / Y_papercnt[i-start]
     axes[plot_idx, 0].plot(X_year,Y_papercnt, 'o-', label='paper number', color='r', linewidth = 10, markersize=20)
     # axes[plot_idx, 0].plot(X_year,Y_citingpatentcnt, 'o-', label='patent_citation', color='g', linewidth = 10, markersize=20)
     axes[plot_idx, 0].plot(X_year,Y_citedpapercnt, 'o-', label='cited paper number', color='g', linewidth = 10, markersize=20)
