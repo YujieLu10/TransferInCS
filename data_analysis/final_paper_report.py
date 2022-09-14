@@ -141,7 +141,9 @@ for conf in ["CHI", "CSCW", "UIST", "UBI"]:
         else:
             Y_citingpapercnt[idx] = math.log(0.0001)
         idx += 1
-    print(stats.pearsonr(Y_citingpapercnt, Y_citingpatentcnt))
+    # print(stats.pearsonr(Y_citingpapercnt, Y_citingpatentcnt))
+    print(stats.ttest_ind(Y_citingpapercnt, Y_citingpatentcnt))
+    
 #     axes[plot_idx].plot(Y_citingpapercnt,Y_citingpatentcnt,'o',color='r',markersize=30)
 #     axes[plot_idx].set_title('{}'.format(conf.upper().replace("UBI", "UbiComp")), fontsize=90)
 #     axes[plot_idx].set_xscale("log")
