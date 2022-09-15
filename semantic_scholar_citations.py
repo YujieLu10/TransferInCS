@@ -9,9 +9,9 @@ import time
 
 start_idx = 0
 conf_name = "HCI"
-# cur_result_pd = pd.read_csv('dataAug10/mergeversiondata/paperinformation_HCI.tsv', sep=',')
-# cur_result_pd = cur_result_pd.drop_duplicates()
-# white_list = cur_result_pd['mag_id'].tolist()
+cur_result_pd = pd.read_csv('paper_academia_peak_HCI.tsv', sep=',')
+cur_result_pd = cur_result_pd.drop_duplicates()
+history_list = cur_result_pd['mag_id'].tolist()
 # # ic(cur_result_pd['mag_id'].tolist()[:10])
 
 hci_poaperids_df = pd.read_csv('dataAug10/mergeversiondata/HCI_paperids.tsv', sep='\t')
@@ -19,14 +19,13 @@ hci_poaperids_df = hci_poaperids_df.drop_duplicates()
 # '/Users/yujie/Desktop/Project/TransferInCS/paperinformation_HCI.tsv'
 result = []
 # ic(cur_result_pd.size, hci_poaperids_df.size)
-count = 0
-write_head = True
-# new_hci_poaperids_df = hci_poaperids_df.loc[~hci_poaperids_df["paper_id"].isin(white_list)]
+write_head = False
+new_hci_poaperids_df = hci_poaperids_df.loc[~hci_poaperids_df["paper_id"].isin(history_list)]
 # start again id: 2079191613
 def most_common(lst):
     return max(set(lst), key=lst.count)
 
-for index, line in tqdm(hci_poaperids_df.iterrows()):
+for index, line in tqdm(new_hci_poaperids_df.iterrows()):
     # if line[0] in white_list: continue
     mag_id = line[0]
     query = "https://api.semanticscholar.org/graph/v1/paper/MAG:{}?fields=year,citations.year".format(mag_id)
@@ -49,7 +48,6 @@ for index, line in tqdm(hci_poaperids_df.iterrows()):
 
         result.append([mag_id, paper_response.json()["year"], peak_year, peak_year_lag])
     except:
-        count += 1
         if paper_response.json().get("message", "") == "Too Many Requests":
             result_pd = pd.DataFrame(data=result, columns=['mag_id', 'year', 'peak_year', 'peak_year_lag'])
             result_pd.to_csv('paper_academia_peak_' + str(conf_name) + '.tsv', mode='a', header=write_head, index=False, encoding='utf-8')
@@ -69,4 +67,3 @@ for index, line in tqdm(hci_poaperids_df.iterrows()):
 result_pd = pd.DataFrame(data=result, columns=['mag_id', 'year', 'peak_year', 'peak_year_lag'])
 result_pd.to_csv('paper_academia_peak_' + str(conf_name) + '.tsv', mode='a', header=write_head, index=False, encoding='utf-8')
 write_head = False
-ic(count)
