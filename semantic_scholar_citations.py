@@ -14,13 +14,18 @@ cur_result_pd = cur_result_pd.drop_duplicates()
 history_list = cur_result_pd['mag_id'].tolist()
 # # ic(cur_result_pd['mag_id'].tolist()[:10])
 
-hci_poaperids_df = pd.read_csv('dataAug10/mergeversiondata/HCI_paperids.tsv', sep='\t')
+# hci_poaperids_df = pd.read_csv('dataAug10/mergeversiondata/HCI_paperids.tsv', sep='\t')
+# hci_poaperids_df = hci_poaperids_df.drop_duplicates()
+hci_poaperids_df = pd.read_csv('data_analysis/df_paper_pc2s_year_filtered.tsv', sep=',')
+hci_poaperids_df = hci_poaperids_df.groupby(["magid"]).first().reset_index()
 hci_poaperids_df = hci_poaperids_df.drop_duplicates()
+ic(len(hci_poaperids_df))
 # '/Users/yujie/Desktop/Project/TransferInCS/paperinformation_HCI.tsv'
 result = []
 # ic(cur_result_pd.size, hci_poaperids_df.size)
 write_head = False
-new_hci_poaperids_df = hci_poaperids_df.loc[~hci_poaperids_df["paper_id"].isin(history_list)]
+new_hci_poaperids_df = hci_poaperids_df.loc[~hci_poaperids_df["magid"].isin(history_list)]
+ic(len(new_hci_poaperids_df))
 # start again id: 2079191613
 def most_common(lst):
     return max(set(lst), key=lst.count)
