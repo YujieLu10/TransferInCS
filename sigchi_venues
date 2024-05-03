@@ -1,0 +1,27 @@
+1163450153	Human Factors in Computing Systems
+1166315290	User Interface Software and Technology
+1171345118	Ubiquitous Computing
+1195049314	Conference on Computer Supported Cooperative Work
+2626138005	Tangible and Embedded Interaction
+2626020790	Eye Tracking Research & Application
+2606280534	International Conference on Supporting Group Work
+1170221290	Intelligent User Interfaces
+2625854078	Creativity and Cognition
+2627043526	Interaction Design and Children
+2754031194	International Conference on User Modeling, Adaptation, and Personalization
+2626686725	Engineering Interactive Computing System
+2625968183	Automotive User Interfaces and Interactive Vehicular Applications
+1129075963	Human-Robot Interaction
+1150140640	International Conference on Computational Collective Intelligence
+1134284382	Conference on Recommender Systems
+2626333002	Annual Symposium on Computer-Human Interaction in Play
+1131590914	International Conference on Multimodal Interfaces
+2625536980	Symposium on Spatial User Interaction
+1190088697	Virtual Reality Software and Technology
+
+
+; TODO:
+; 1. @hancheng conference id list (SIGCHI https://sigchi.org/conferences/upcoming-conferences/) @yujie paper cited by patent percentage
+7678/57385 13.37%
+; 2. citation-wise filter pcs raw data (keep wherefound = both or bodyonly), and then aggregate in paper-wise （对于最最开始的raw data(所有pcs) 方便计算下总共有百分之多少的paper被bodyonly和both类别cite过嘛）
+42822459, both 4515991, bodyonly 13007040, frontonly 25299427
